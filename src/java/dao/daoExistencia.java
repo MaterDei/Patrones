@@ -9,6 +9,7 @@ import connection.Coneccion;
 import java.sql.ResultSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import logic.Cerveza;
 import logic.Producto;
 
 /**
@@ -25,18 +26,18 @@ public class daoExistencia {
         
         try{
             con = Coneccion.getConexion();
-
+            int can=-1;
             String consulta = "SELECT cantidad FROM existencia WHERE idInsumo = '" + idInsumo + "'";
 	    java.sql.Statement sentencia = con.createStatement();
 	    ResultSet rs = sentencia.executeQuery( consulta );
 
             if (rs.next()){
-                return rs.getInt("cantidad");
+                can= rs.getInt("cantidad");
             }
 
             sentencia.close();
 	    Coneccion.cerrarConexion();
-            return -1;
+            return can;
         } catch(Exception ex){
             Logger.getLogger(daoProducto.class.getName()).log(Level.SEVERE,null,ex);
             return -1;
@@ -53,20 +54,35 @@ public class daoExistencia {
             
             int nuevaCantidad= prod.getReservas1()-cantidad;
             int nuevaCantidad2= prod.getReservas2()-cantidad;
+            int id=prod.getIdInsumo1();
+            int rs=999;
+            String consulta;
             
-         //   UPDATE `borrachosbar`.`existencia` SET `cantidad`='103' WHERE `idInsumo`='1';
-
-            String consulta = "UPDATE cantidad FROM existencia WHERE idInsumo = '" + cantidad + "'";
+            consulta = "UPDATE existencia SET cantidad ='" + nuevaCantidad + "'WHERE idInsumo = '" + id+ "'";
 	    java.sql.Statement sentencia = con.createStatement();
-	    ResultSet rs = sentencia.executeQuery( consulta );
+	    rs = sentencia.executeUpdate( consulta );
 
-            //if (rs.next()){
-              //  return rs.getInt("cantidad");
-           // }
-
+            if(prod instanceof Cerveza)
+            {
             sentencia.close();
 	    Coneccion.cerrarConexion();
-            return -1;
+            }
+            
+            else{
+                id=prod.getIdInsumo2();
+                consulta = "UPDATE existencia SET cantidad ='" + nuevaCantidad2 + "'WHERE idInsumo = '" + id+ "'";
+                java.sql.Statement sentencias = con.createStatement();
+                rs = sentencias.executeUpdate( consulta );
+                sentencia.close();
+                Coneccion.cerrarConexion();
+            }
+            
+            
+            if(rs==1){
+                System.out.print("Cantidad debitada exitosamente");
+                return 1;}
+            else 
+                return -1;
         } catch(Exception ex){
             Logger.getLogger(daoProducto.class.getName()).log(Level.SEVERE,null,ex);
             return -1;

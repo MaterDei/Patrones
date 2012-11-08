@@ -15,19 +15,15 @@ import java.util.logging.Logger;
  */
 public class Hamburguesa extends Producto{
     
-    
-    
     daoProducto dp= new daoProducto();
     daoExistencia de = new daoExistencia();
     
     public Hamburguesa(){
         
-    
+        this.setIdInsumo1(2);
+        this.setIdInsumo2(3);
     }
     
- 
-    
-   
     @Override
     protected double obtenerPrecio(){
         try {
@@ -42,9 +38,11 @@ public class Hamburguesa extends Producto{
     
     @Override
     protected int obtenerExistencia(int solicitud){
-    int panH=de.consultarExistencia(2);
-    int carne=de.consultarExistencia(3);
+    int panH=de.consultarExistencia(this.getIdInsumo1());
+    int carne=de.consultarExistencia(this.getIdInsumo2());
     
+    System.out.print(carne);
+               
     this.setReservas1(panH);
     this.setReservas2(carne);
     
@@ -52,6 +50,11 @@ public class Hamburguesa extends Producto{
         return 1;
     else
         return -1;
+    }
+    
+    @Override
+    protected int debitarExistencia(Producto prod, int cantidad){
+    return de.debitarExistencia(prod, cantidad);
     }
     
 }

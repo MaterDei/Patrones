@@ -12,8 +12,11 @@ public abstract class Producto {
     
     private String nombre;
     private int cantidad;
-    private static int reservas1;
-    private static int reservas2;
+    private int reservas1;
+    private int reservas2;
+    
+    private int idInsumo1;
+    private int idInsumo2;
     
     
    
@@ -49,12 +52,26 @@ public abstract class Producto {
 		reservas2 = rese;
 	}
     
-
     
+    public int getIdInsumo1() {
+		return idInsumo1;
+	}
     
+    public void setIdInsumo1(int insumo) {
+		idInsumo1 = insumo;
+	}
     
+        public int getIdInsumo2() {
+		return idInsumo2;
+	}
+    
+    public void setIdInsumo2(int insumo) {
+		idInsumo2 = insumo;
+	}
     
     protected abstract double obtenerPrecio();
     
     protected abstract int obtenerExistencia(int solicitud1);
+    
+    protected abstract int debitarExistencia(Producto prod, int cantidad);
 }

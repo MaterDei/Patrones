@@ -24,6 +24,7 @@ public class Tarifar {
         Perro perro = new Perro();
         Cerveza cerv= new Cerveza();
         int cantidad=0;
+        int error=0;
         
         try {
            
@@ -43,7 +44,7 @@ public class Tarifar {
                             //hambur.setCantidad(num.getInt(i));
                             total+=hambur.obtenerPrecio()*num.getInt(i);
                             else
-                                return "No hay suficiente material para preparar hamburguesas";
+                            return "No hay suficiente material para preparar hamburguesas";
                             
                             
                         }
@@ -62,7 +63,9 @@ public class Tarifar {
                                 {
                                     if(cerv.obtenerExistencia(cantidad)==1)
                                     //cerv.setCantidad(num.getInt(i));
-                                    total+=cerv.obtenerPrecio()*num.getInt(i);
+                                    {total+=cerv.obtenerPrecio()*num.getInt(i);
+                                     System.out.print("cantidad"+cantidad);
+                                    }
                                     else
                                         return "No hay suficientes cervezas en bodega...... que pesar";
                                 }
@@ -74,9 +77,28 @@ public class Tarifar {
                         
                         }
                     }
-                    
-                   
                 }
+                
+                
+                 for (int i = 0; i < prod.length(); i++) {
+                    cantidad=num.getInt(i);
+                    
+                    if(prod.getString(i).equals("Hamburguesa")){
+                        hambur.debitarExistencia(hambur, cantidad);
+                    }
+                    else{
+                    if(prod.getString(i).equals("Cerveza")){
+                    cerv.debitarExistencia(cerv, cantidad);
+                    }
+                    else{
+                    perro.debitarExistencia(perro, cantidad);
+                    }
+                    }
+                    
+                    
+                    
+                     }
+                
                 
         } catch (JSONException ex) {
             Logger.getLogger(Tarifar.class.getName()).log(Level.SEVERE, null, ex);

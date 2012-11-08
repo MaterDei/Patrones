@@ -15,16 +15,21 @@ import java.util.logging.Logger;
  */
 public class Perro extends Producto{
     
+    
     daoProducto dp= new daoProducto();
     daoExistencia de= new daoExistencia();
     
     Perro(){
+        this.setIdInsumo1(4);
+        this.setIdInsumo2(5);
     }
+    
     
     @Override
     protected  double obtenerPrecio(){
         try {
-            return dp.consultarPrecios(Perro.class.getSimpleName());
+            String name=Perro.class.getSimpleName();
+            return dp.consultarPrecios(name);
         } catch (Exception ex) {
             Logger.getLogger(Perro.class.getName()).log(Level.SEVERE, null, ex);
             return -1000;
@@ -33,14 +38,19 @@ public class Perro extends Producto{
     
     @Override
     protected int obtenerExistencia(int solicitud){
-    int pan=de.consultarExistencia(4);
-    int salc= de.consultarExistencia(5);
+    int pan=de.consultarExistencia(this.getIdInsumo1());
+    int salc= de.consultarExistencia(this.getIdInsumo2());
     this.setReservas1(pan);
     this.setReservas2(salc);
     
     if(pan>=solicitud && salc>=solicitud)
     return 1;
     else return -1;
+    }
+    
+    @Override
+    protected int debitarExistencia(Producto prod, int cantidad){
+    return de.debitarExistencia(prod, cantidad);
     }
     
 }

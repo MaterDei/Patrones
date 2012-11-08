@@ -24,8 +24,8 @@ public class daoProducto {
     public double consultarPrecios(String name) throws Exception{
         try{
             con = Coneccion.getConexion();
-            System.out.print("adentro");
-
+            System.out.print("adentro ");
+            System.out.print(name);
             String consulta = "SELECT precio FROM producto WHERE nombreProducto = '" + name + "'";
 	    java.sql.Statement sentencia = con.createStatement();
 	    ResultSet rs = sentencia.executeQuery( consulta );

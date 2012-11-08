@@ -14,16 +14,19 @@ import java.util.logging.Logger;
  * @author JAVIER
  */
 public class Cerveza extends Producto{
+    
  
     daoProducto dp= new daoProducto();
     daoExistencia de= new daoExistencia();
     
-    Cerveza(){}
+    Cerveza(){
+    this.setIdInsumo1(1);
+    }
    
     @Override
     protected double obtenerPrecio(){
         try {
-            return dp.consultarPrecios(Producto.class.getSimpleName());
+            return dp.consultarPrecios(Cerveza.class.getSimpleName());
         } catch (Exception ex) {
             Logger.getLogger(Cerveza.class.getName()).log(Level.SEVERE, null, ex);
             return -1;
@@ -32,12 +35,17 @@ public class Cerveza extends Producto{
     
     @Override
     protected int obtenerExistencia(int solicitud){
-    int alch= de.consultarExistencia(1);
+    int alch= de.consultarExistencia(this.getIdInsumo1());
     this.setReservas1(alch);
     if(alch>=solicitud)
         return 1;
     else
         return -1;
+    }
+    
+    @Override
+    protected int debitarExistencia(Producto prod, int cantidad){
+        return de.debitarExistencia(prod, cantidad);
     }
     
 }
