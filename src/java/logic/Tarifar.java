@@ -24,7 +24,6 @@ public class Tarifar {
         Perro perro = new Perro();
         Cerveza cerv= new Cerveza();
         int cantidad=0;
-        int error=0;
         
         try {
            
