@@ -21,25 +21,26 @@ public class daoProducto {
     
    
     
-    public String consultarPrecios(String name) throws Exception{
+    public double consultarPrecios(String name) throws Exception{
         try{
             con = Coneccion.getConexion();
             System.out.print("adentro");
 
-            String consulta = "SELECT nombreProducto, precio FROM producto WHERE nombreProducto = '" + name + "'";
+            String consulta = "SELECT precio FROM producto WHERE nombreProducto = '" + name + "'";
 	    java.sql.Statement sentencia = con.createStatement();
 	    ResultSet rs = sentencia.executeQuery( consulta );
 
             if (rs.next()){
-                return rs.getString("precio");
+                System.out.print(rs.getDouble("precio"));
+                return rs.getDouble("precio");
             }
 
             sentencia.close();
 	    Coneccion.cerrarConexion();
-            return "Consulta inválidasss";
+            return -1;
         } catch(Exception ex){
             Logger.getLogger(daoProducto.class.getName()).log(Level.SEVERE,null,ex);
-            return "Consulta inválida";
+            return -1;
         }
     
     }

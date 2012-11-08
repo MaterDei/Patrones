@@ -18,39 +18,53 @@ public class Tarifar {
     
     public String  calcular(String codigo, String productos){
         
-        String rta = null;
+
+        double total=0;
+        Hamburguesa hambur = new Hamburguesa();
+        Perro perro = new Perro();
+        Cerveza cerv= new Cerveza();
+        int cantidad=0;
+        
         try {
-            
-            JSONObject pedido = new JSONObject();
-            String[] products = new String[]{"Hamburguesa","Perro", "Cerveza"};
-            int[] cantidades = new int[]{2, 10,20};
-            pedido.put("productos", products);
-            pedido.put("cantidades", cantidades);
            
             JSONObject recibido = new JSONObject(productos);
             JSONArray prod = recibido.getJSONArray("productos");
             JSONArray num = recibido.getJSONArray("cantidades");
-               
-            return recibido.toString()+prod.toString()+num.toString();
             
-            /*
-                for (int i = 0; i < prod.length(); i++) {
+            
+                for ( int i = 0; i < prod.length(); i++) {
+                    cantidad=num.getInt(i);
                     
-                    if(num.getInt(i)!=0){
+                    if(cantidad!=0){
                     
                         if(prod.getString(i).equals("Hamburguesa"))
                         {
-                            Hamburguesa hambur = new Hamburguesa();
+                            if(hambur.obtenerExistencia(cantidad)==1)
+                            //hambur.setCantidad(num.getInt(i));
+                            total+=hambur.obtenerPrecio()*num.getInt(i);
+                            else
+                                return "No hay suficiente material para preparar hamburguesas";
+                            
+                            
                         }
                         else{
                             if (prod.getString(i).equals("Perro")){
-                                Perro perro = new Perro();
+                                
+                                if(perro.obtenerExistencia(cantidad)==1)
+                               // perro.setCantidad(num.getInt(i));
+                                total+=perro.obtenerPrecio()*num.getInt(i);
+                                else
+                                    return "No hay suficiente material para prepara perros";
                             }
                             else
                             {
                                 if((prod.getString(i).equals("Cerveza")))
                                 {
-                                    Cerveza cerv= new Cerveza();
+                                    if(cerv.obtenerExistencia(cantidad)==1)
+                                    //cerv.setCantidad(num.getInt(i));
+                                    total+=cerv.obtenerPrecio()*num.getInt(i);
+                                    else
+                                        return "No hay suficientes cervezas en bodega...... que pesar";
                                 }
                                 else
                                 {
@@ -59,19 +73,16 @@ public class Tarifar {
                             }
                         
                         }
-      
-                    System.out.println( prod.getString(i) );
-                    System.out.print("hola.....");
-                    rta=prod.getString(i);
                     }
                     
                    
                 }
-                */ 
+                
         } catch (JSONException ex) {
             Logger.getLogger(Tarifar.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return  rta;
+        
+        return Double.toString(total);
     }
     
   
