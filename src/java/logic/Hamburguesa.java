@@ -6,6 +6,7 @@ package logic;
 
 import dao.daoExistencia;
 import dao.daoProducto;
+import dao.daoProveedor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,6 +18,7 @@ public class Hamburguesa extends Producto{
     
     daoProducto dp= new daoProducto();
     daoExistencia de = new daoExistencia();
+    daoProveedor dpr= new daoProveedor();
     
     public Hamburguesa(){
         
@@ -55,6 +57,16 @@ public class Hamburguesa extends Producto{
     @Override
     protected int debitarExistencia(Producto prod, int cantidad){
     return de.debitarExistencia(prod, cantidad);
+    }
+    
+    @Override
+    protected  String [] getProveedorUrgente(int id){
+        try {
+            return dpr.getProveedorUrgente(id);
+        } catch (Exception ex) {
+            Logger.getLogger(Hamburguesa.class.getName()).log(Level.SEVERE, null, ex);
+            return new String[] {"No se pudo realizar la llamada para obtener datos del proveedor urgente"};
+        }
     }
     
 }

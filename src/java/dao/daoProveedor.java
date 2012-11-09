@@ -14,30 +14,33 @@ import java.util.logging.Logger;
  *
  * @author JAVIER
  */
-public class daoProducto {
+public class daoProveedor {
 
     Connection con;
 
-    public double consultarPrecios(String name) throws Exception {
+    public String[] getProveedorUrgente(int id) throws Exception {
         try {
             con = Coneccion.getConexion();
-            System.out.print("adentro ");
-            System.out.print(name);
-            String consulta = "SELECT precio FROM producto WHERE nombreProducto = '" + name + "'";
+
+            String consulta = "SELECT nombreProveedor, correoProveedor, nombreInsumo FROM proveedor INNER JOIN existencia WHERE idInsumo=idInsumoProveedor AND idInsumoProveedor = '" + id + "'";
             java.sql.Statement sentencia = con.createStatement();
             ResultSet rs = sentencia.executeQuery(consulta);
 
+            String[] rta = new String[3];
+
             if (rs.next()) {
-                System.out.print(rs.getDouble("precio"));
-                return rs.getDouble("precio");
+                System.out.print("Contactar urgente a " + rs.getString("nombreProveedor"));
+                rta[0] = rs.getString("nombreProveedor");
+                rta[1] = rs.getString("correoProveedor");
+                rta[2] = rs.getString("nombreInsumo");
             }
 
             sentencia.close();
             Coneccion.cerrarConexion();
-            return -1;
+            return rta;
         } catch (Exception ex) {
             Logger.getLogger(daoProducto.class.getName()).log(Level.SEVERE, null, ex);
-            return -1;
+            return new String[]{"No se pudo realizar la consulta del proveedor urgente"};
         }
 
     }

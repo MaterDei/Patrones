@@ -6,6 +6,7 @@ package logic;
 
 import dao.daoProducto;
 import dao.daoExistencia;
+import dao.daoProveedor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,6 +19,7 @@ public class Perro extends Producto{
     
     daoProducto dp= new daoProducto();
     daoExistencia de= new daoExistencia();
+    daoProveedor dpr= new daoProveedor();
     
     Perro(){
         this.setIdInsumo1(4);
@@ -51,6 +53,16 @@ public class Perro extends Producto{
     @Override
     protected int debitarExistencia(Producto prod, int cantidad){
     return de.debitarExistencia(prod, cantidad);
+    }
+    
+    @Override
+    protected  String[] getProveedorUrgente(int id){
+        try {
+            return dpr.getProveedorUrgente(id);
+        } catch (Exception ex) {
+            Logger.getLogger(Perro.class.getName()).log(Level.SEVERE, null, ex);
+            return new String[]{"NO se pudo realizar la llamada para obtener datos de proveedor urgente"};
+        }
     }
     
 }

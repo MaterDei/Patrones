@@ -74,4 +74,6 @@ public abstract class Producto {
     protected abstract int obtenerExistencia(int solicitud1);
     
     protected abstract int debitarExistencia(Producto prod, int cantidad);
+    
+    protected abstract String [] getProveedorUrgente(int id);
 }
