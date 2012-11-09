@@ -117,6 +117,7 @@ public class Tarifar {
                         }
 
                     } else {
+                        if(prod.getString(i).equals("Perro")){
                         perro.debitarExistencia(perro, cantidad);
                         if ((perro.getReservas1() - cantidad) == 0) {
                             rta = perro.getProveedorUrgente(perro.getIdInsumo1());
@@ -130,7 +131,7 @@ public class Tarifar {
                             correo.add(rta[1]);
                             nombreInsumo.add(rta[2]);
                         }
-
+                        }
                     }
                 }
 
